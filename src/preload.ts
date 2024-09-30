@@ -7,9 +7,9 @@ declare global {
 }
 
 interface ElectronApi {
-  addOne: (x: number) => Promise<number>
+  loadSample: (fileName: string, index: number) => Promise<string>
 }
 
 contextBridge.exposeInMainWorld("electronApi", {
-  addOne: (x: number) => ipcRenderer.invoke("addOne", x),
+  loadSample: (fileName: string, index: number) => ipcRenderer.invoke('loadSample', fileName, index)
 })
