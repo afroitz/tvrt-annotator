@@ -52,25 +52,27 @@ const AnnotateSample: React.FC = () => {
 
   return (
     <div>
+      {/* Annotation UI */}
+      <div>
+        <div>
+          <button onClick={handlePreviousSample} disabled={sampleIndex === 0}>
+            Previous
+          </button>
+          <button onClick={handleNextSample} disabled={sampleIndex >= rowCount - 1}>
+            Next
+          </button>
+        </div>
+        <div>
+          <p>Sample {sampleIndex + 1} of {rowCount}</p>
+        </div>
+      </div>
+      {/* Display of the sample */}
       {sampleData ? 
         <SampleDisplay sample={sampleData} />
         : <div>No data</div>
       }
 
-      {/* Navigation Buttons */}
-      <div>
-        <button onClick={handlePreviousSample} disabled={sampleIndex === 0}>
-          Previous
-        </button>
-        <button onClick={handleNextSample} disabled={sampleIndex >= rowCount - 1}>
-          Next
-        </button>
-      </div>
-
-      {/* Display the current index */}
-      <div>
-        <p>Sample {sampleIndex + 1} of {rowCount}</p>
-      </div>
+      
     </div>
   );
 }

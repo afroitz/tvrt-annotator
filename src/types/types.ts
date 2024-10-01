@@ -7,6 +7,8 @@ export type MessageReaction = {
   count: number;
 }
 
+export type MessageMediaType = "MessageMediaDocumentVideo" | "MessageMediaWebPage" | "MessageMediaPhoto" | "MessageMediaDocumentAudio" | "MessageMediaDocumentDocument" | "";
+
 export type AnnotationSample = {
   message_text: string; /** Text of the message */
   chat_name: string; /** Name of the chat */
@@ -16,6 +18,11 @@ export type AnnotationSample = {
   message_reactions: MessageReaction[]; /** Reactions to the message */
   message_reactions_count: number; /** Number of reactions to the message */
   message_view_count: number; /** Number of times the message was viewed */
+  message_media_type: MessageMediaType; /** Attached media type */
+  webpage_author: string; /** If message_media_type is MessageMediaWebPage: Author of the webpage */
+  webpage_description: string; /** If message_media_type is MessageMediaWebPage: Description of the webpage */
+  webpage_title: string; /** If message_media_type is MessageMediaWebPage: Title of the webpage */
+  webpage_url: string; /** If message_media_type is MessageMediaWebPage: URL of the webpage */
 }
 
 /* 
