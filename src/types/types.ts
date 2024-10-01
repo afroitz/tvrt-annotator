@@ -23,6 +23,8 @@ export type AnnotationSample = {
   webpage_description: string; /** If message_media_type is MessageMediaWebPage: Description of the webpage */
   webpage_title: string; /** If message_media_type is MessageMediaWebPage: Title of the webpage */
   webpage_url: string; /** If message_media_type is MessageMediaWebPage: URL of the webpage */
+  is_fwd: boolean; /** Whether the message is a forward */
+  fwd_from_chat_handle: string; /** If is_fwd is true: Handle of the chat the message was forwarded from */
 }
 
 /* 
