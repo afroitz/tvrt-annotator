@@ -1,4 +1,4 @@
-export type AnnotationInputFileInfo = {
+export type DatasetInfo = {
   rows: number;
 }
 
@@ -9,7 +9,7 @@ export type MessageReaction = {
 
 export type MessageMediaType = "MessageMediaDocumentVideo" | "MessageMediaWebPage" | "MessageMediaPhoto" | "MessageMediaDocumentAudio" | "MessageMediaDocumentDocument" | "";
 
-export type AnnotationSample = {
+export type MessageData = {
   message_text: string; /** Text of the message */
   chat_name: string; /** Name of the chat */
   chat_handle: string; /** Handle of the chat */
@@ -25,7 +25,14 @@ export type AnnotationSample = {
   webpage_url: string; /** If message_media_type is MessageMediaWebPage: URL of the webpage */
   is_fwd: boolean; /** Whether the message is a forward */
   fwd_from_chat_handle: string; /** If is_fwd is true: Handle of the chat the message was forwarded from */
+  is_reply: boolean; /** Whether the message is a reply */
+  reply_to_message_id: number; /** If is_reply is true: ID of the message being replied to */
 }
+
+export type AnnotationSample = {
+  sample: MessageData;
+  thread: MessageData[];
+};
 
 /* 
 **Reactions**

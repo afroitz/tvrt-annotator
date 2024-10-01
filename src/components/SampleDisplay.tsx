@@ -7,16 +7,19 @@ export type SampleDisplayProps = {
 };
 
 const SampleDisplay = ({ sample }: SampleDisplayProps) => {
+
+  const msgData = sample.sample;
+
   return <div className="flex flex-col gap-5 px-4 py-2 items-center">
     {/* Forwarded indicator */}
-    {sample.is_fwd && (
+    {msgData.is_fwd && (
       <div className="bg-gray-200 p-2 rounded-xl flex gap-4 items-center px-4 py-2">
         <FaShare className="w-10 h-10"/>
-        <p className="text-xl">{sample.fwd_from_chat_handle ? (<>Forwarded from <span className="italic">{sample.fwd_from_chat_handle}</span></>) : "Forwarded from unknown chat"}</p>
+        <p className="text-xl">{msgData.fwd_from_chat_handle ? (<>Forwarded from <span className="italic">{msgData.fwd_from_chat_handle}</span></>) : "Forwarded from unknown chat"}</p>
       </div>
     )}
     {/* Display the message */}
-    <MessageDisplay sample={sample} />
+    <MessageDisplay message={msgData} />
   </div>
 }
 

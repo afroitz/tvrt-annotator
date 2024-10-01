@@ -3,34 +3,34 @@ import { AnnotationSample } from "@/types/types";
 import { useEffect, useState, useCallback } from "react";
 
 const AnnotateSample: React.FC = () => {
-  const fileName = '24_09_28-test_scrape.csv';
+  const datasetName = 'my_test_dataset';
   
-  const [sampleIndex, setSampleIndex] = useState(0);
+  const [sampleIndex, setSampleIndex] = useState(1);
   const [sampleData, setSampleData] = useState<AnnotationSample>(null);
   const [rowCount, setRowCount] = useState(0);
 
   // Load the current sample based on sampleIndex
   const loadSample = useCallback(async (index: number) => {
     try {
-      const sample = await window.electronApi.loadSample(fileName, index);
+      const sample = await window.electronApi.loadSample(datasetName, index);
       setSampleData(sample);
     } catch (error) {
       console.error(error);
     }
-  }, [fileName]);
+  }, [datasetName]);
 
   // Load the number of rows in the file on component mount
   useEffect(() => {
     const fetchRowCount = async () => {
       try {
-        const fileInfo = await window.electronApi.getAnnotationFileInfo(fileName);
+        const fileInfo = await window.electronApi.getDatasetInfo(datasetName);
         setRowCount(fileInfo.rows);
       } catch (error) {
         console.error(error);
       }
     };
     fetchRowCount();
-  }, [fileName]);
+  }, [datasetName]);
 
   // Update the sample data whenever the sampleIndex changes
   useEffect(() => {

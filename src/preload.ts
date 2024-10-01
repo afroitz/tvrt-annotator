@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { AnnotationInputFileInfo, AnnotationSample } from "./types/types";
+import { DatasetInfo, AnnotationSample } from "./types/types";
 
 declare global {
   interface Window {
@@ -8,11 +8,11 @@ declare global {
 }
 
 interface ElectronApi {
-  loadSample: (fileName: string, index: number) => Promise<AnnotationSample>
-  getAnnotationFileInfo: (fileName: string) => Promise<AnnotationInputFileInfo>
+  loadSample: (datasetName: string, index: number) => Promise<AnnotationSample>
+  getDatasetInfo: (name: string) => Promise<DatasetInfo>
 }
 
 contextBridge.exposeInMainWorld("electronApi", {
-  loadSample: (fileName: string, index: number) => ipcRenderer.invoke('loadSample', fileName, index),
-  getAnnotationFileInfo: (fileName: string) => ipcRenderer.invoke('getAnnotationFileInfo', fileName)
+  loadSample: (datasetName: string, index: number) => ipcRenderer.invoke('loadSample', datasetName, index),
+  getDatasetInfo: (name: string) => ipcRenderer.invoke('getDatasetInfo', name)
 })
