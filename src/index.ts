@@ -101,7 +101,7 @@ ipcMain.handle('loadSample', async (_event, fileName: string, index: number):Pro
   sample.message_reactions_count = Number(sample.message_reactions_count)
   sample.message_view_count = Number(sample.message_view_count)
 
-  const parsedReactions = JSON.parse(sample.message_reactions.replace(/'/g, '"'));
+  const parsedReactions = sample.message_reactions ? JSON.parse(sample.message_reactions.replace(/'/g, '"')) : {};
   const emojiReactions = [];
 
   for (const key in parsedReactions) {
