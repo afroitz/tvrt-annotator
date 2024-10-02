@@ -4,8 +4,10 @@ import { useEffect, useState, useCallback } from "react";
 
 const AnnotateSample: React.FC = () => {
   const datasetName = 'my_test_dataset';
+
+  // [94, 184, 236, 246, 335, 377, 378, 387, 449, 467, 469, 609, 826, 943, 1092, 1290, 1365, 1512, 1523, 1584, 1678, 1763, 1856, 1955, 2091, 2148, 2211, 2376, 2449, 2489, 2491, 2508, 2510, 2545, 2938, 2979, 2980, 2985, 2992, 3097, 3144, 3147, 3156, 3470, 3479, 3482, 3488, 3572, 3836, 3898, 3904]
   
-  const [sampleIndex, setSampleIndex] = useState(1);
+  const [sampleIndex, setSampleIndex] = useState(377);
   const [sampleData, setSampleData] = useState<AnnotationSample>(null);
   const [rowCount, setRowCount] = useState(0);
 

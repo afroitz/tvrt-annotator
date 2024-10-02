@@ -31,9 +31,14 @@ export const getEmojiByName = (name: string) => {
 
 /** Some processing to prepare message data for rendering */
 export const processMessageData = (data: any): MessageData => {
+  data.telegram_message_id = Number(data.telegram_message_id)
   data.message_fwd_count = Number(data.message_fwd_count)
   data.message_reactions_count = Number(data.message_reactions_count)
   data.message_view_count = Number(data.message_view_count)
+
+  // parse booleans
+  data.is_fwd = data.is_fwd === 'True'
+  data.is_reply = data.is_reply === 'True'
 
   const parsedReactions = data.message_reactions ? JSON.parse(data.message_reactions.replace(/'/g, '"')) : {};
   const emojiReactions = [];
@@ -48,13 +53,13 @@ export const processMessageData = (data: any): MessageData => {
   return data as MessageData;
 }
 
-export const getMessageReplyThread = (message: MessageData, allMessages: any[]): any[] => {
+export const getMessageReplyThread = (message: any, allMessages: any[]): any[] => {
   // if the message is not a reply, return an empty array
-  if(!message.is_reply){
+  if(!(message.is_reply === true || message.is_reply === 'True')){
     return []
   }
 
-  const parent = allMessages.find((msg) => msg.telegram_message_id === message.reply_to_message_id && msg.chat_handle === message.chat_handle)
+  const parent = allMessages.find((msg) => Number(msg.telegram_message_id) === Number(message.reply_to_message_id) && msg.chat_handle === message.chat_handle)
 
   if(!parent){
     return []

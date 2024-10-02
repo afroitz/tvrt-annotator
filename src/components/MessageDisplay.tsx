@@ -4,12 +4,13 @@ import ReactMarkdown from "react-markdown";
 
 export type MessageDisplayProps = {
   message: MessageData;
+  classes?: string;
 };
 
 const MessageDisplay = (props: MessageDisplayProps) => {
 
   // destructure sample from props
-  const { message } = props;
+  const { message, classes } = props;
 
   // switch case for message attachment wording: Video, Audio, Photo etc
   let mediaTypeText = "";
@@ -36,7 +37,7 @@ const MessageDisplay = (props: MessageDisplayProps) => {
   }
 
   return (
-    <div>
+    <div className={classes}>
       <h2 className="font-bold mb-1">
           Chat: {message.chat_name}{" "}
           <span className="italic">({message.chat_handle})</span>

@@ -10,6 +10,7 @@ export type MessageReaction = {
 export type MessageMediaType = "MessageMediaDocumentVideo" | "MessageMediaWebPage" | "MessageMediaPhoto" | "MessageMediaDocumentAudio" | "MessageMediaDocumentDocument" | "";
 
 export type MessageData = {
+  telegram_message_id: number; /** ID of the message */
   message_text: string; /** Text of the message */
   chat_name: string; /** Name of the chat */
   chat_handle: string; /** Handle of the chat */
