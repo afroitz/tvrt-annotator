@@ -1,7 +1,3 @@
-export type DatasetInfo = {
-  rows: number;
-}
-
 export type MessageReaction = {
   emoji: string;
   count: number;
@@ -61,3 +57,42 @@ webpage_description
 webpage_title
 webpage_url
 */
+
+/** Information about an annotation task: Labels and rumors */
+export type TaskInfo = {
+  labels: string[];
+  rumors: string[];
+}
+
+/** Information about an annotation process */
+export type AnnotationMeta = {
+  selectedSample: number;
+}
+
+/** A single annotations */
+export type Annotation = {
+  rumorIndex: number;
+  label: string;
+}
+
+/** The annotations for a sample */
+export type SampleAnnotations = {
+  sampleIndex: number;
+  annotations: Annotation[]
+}
+
+/** The data of an annotation in progress */
+export type AnnotationData = {
+  annotatedSamples: SampleAnnotations[];
+}
+
+/** Information about and state of an annotation process */
+export type AnnotationInfo = {
+  meta: AnnotationMeta;
+  data: AnnotationData;
+}
+
+export type DatasetInfo = {
+  rows: number;
+  taskInfo: TaskInfo;
+}

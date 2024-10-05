@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import Layout from './components/Layout';
 import AnnotateSample from './screens/AnnotateSample';
+import SelectDataset from './screens/SelectDataset';
 
 const router = createMemoryRouter([
   {
@@ -11,6 +12,10 @@ const router = createMemoryRouter([
     children: [
       {
         path: '/',
+        element: <SelectDataset />
+      },
+      {
+        path: '/annotate/:datasetName',
         element: <AnnotateSample />
       },
     ]
