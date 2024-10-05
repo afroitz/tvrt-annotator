@@ -37,7 +37,7 @@ const MessageDisplay = (props: MessageDisplayProps) => {
   }
 
   return (
-    <div className={classes}>
+    <div className={classes + " w-full"}>
       <h2 className="font-bold mb-1">
           Chat: {message.chat_name}{" "}
           <span className="italic">({message.chat_handle})</span>
