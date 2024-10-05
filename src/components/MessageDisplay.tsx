@@ -48,7 +48,13 @@ const MessageDisplay = (props: MessageDisplayProps) => {
         <p className="text-gray-500 italic text-sm mb-2">{message.message_date}</p>
         {/* Message text */}
         <div className="pl-4 border-l-2 border-black">
-          <ReactMarkdown>{message.message_text || "Message has no text."}</ReactMarkdown>
+          <ReactMarkdown
+            components={{
+              a: ({ node, ...props }) => <span>{props.children}</span> // Render links as plain text
+            }}
+          >
+            {message.message_text || "Message has no text."}
+          </ReactMarkdown>
         </div>
         {/* Message media */}
         {message.message_media_type && message.message_media_type !== 'MessageMediaWebPage' && (
