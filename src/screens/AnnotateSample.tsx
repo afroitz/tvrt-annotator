@@ -86,8 +86,53 @@ const AnnotateSample: React.FC = () => {
     }
   };
 
+  // Handle radio button changes (updates annotation)
+  const handleLabelChange = async (rumorIndex: number, selectedLabel: string) => {
+
+    const isRemoval = selectedLabel === "No label";
+    const existingAnnotationsForSample = annotationData.find((sample) => sample.sampleIndex === sampleIndex);
+
+    const updatedAnnotationsForSample: SampleAnnotations = {
+      sampleIndex: sampleIndex,
+      annotations: existingAnnotationsForSample ? 
+        [...existingAnnotationsForSample.annotations.filter((ann) => ann.rumorIndex !== rumorIndex)]
+        : []
+    }
+
+    if(!isRemoval){
+      updatedAnnotationsForSample.annotations.push({ rumorIndex, label: selectedLabel })
+    }
+
+    await window.electronApi.updateAnnotation(datasetName, sampleIndex, updatedAnnotationsForSample);
+    setAnnotationData((prev) => {
+      const existingSampleIndex = prev.findIndex((sample) => sample.sampleIndex === sampleIndex);
+
+      if (existingSampleIndex > -1) {
+        prev[existingSampleIndex] = updatedAnnotationsForSample;
+      } else {
+        prev.push(updatedAnnotationsForSample);
+      }
+
+      return [...prev];
+    });
+  }
+
+  // Helper function to get the selected label for a rumor
+  const getSelectedLabel = (rumorIndex: number): string => {
+    const annotationForSample = annotationData.find((sample) => sample.sampleIndex === sampleIndex);
+
+    if (!annotationForSample) {
+      return "No label";
+    }
+
+    const annotationForRumor = annotationForSample.annotations.find((ann) => ann.rumorIndex === rumorIndex);
+
+    return annotationForRumor?.label || "No label";
+  };
+
   return (
     <div className="flex w-full h-full box-border">
+      { screenReady && <>
       {/* Main/sample area */}
       <div className="w-2/3 pr-4 flex flex-col">
         {/* Sample navigation UI */}
@@ -130,8 +175,44 @@ const AnnotateSample: React.FC = () => {
 
       {/* Annotation controls */}
       <div className="w-1/3 border-l border-black pl-4">
-        hey
+        <h2 className="text-xl font-bold mb-4">Annotate Rumors</h2>
+        {rumors.map((rumor, rumorIndex) => (
+          <div key={rumorIndex} className="mb-6">
+            <p className="italic mb-2">"{rumor}"</p>
+            <div>
+              {/* No label option */}
+              <label className="block mb-1">
+                <input
+                  className="mr-2"
+                  type="radio"
+                  name={`rumor-${rumorIndex}`}
+                  value="No label"
+                  checked={getSelectedLabel(rumorIndex) === "No label"}
+                  onChange={() => handleLabelChange(rumorIndex, "No label")}
+                />
+                No label
+              </label>
+
+              {/* Labels */}
+              {labels.map((label, labelIndex) => (
+                <label key={labelIndex} className="block mb-1">
+                  <input
+                    className="mr-2"
+                    type="radio"
+                    name={`rumor-${rumorIndex}`}
+                    value={label}
+                    checked={getSelectedLabel(rumorIndex) === label}
+                    onChange={() => handleLabelChange(rumorIndex, label)}
+                  />
+                  {label}
+                </label>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
+      </>}
+      { !screenReady && <div>Loading...</div> }
     </div>
   );
 }
