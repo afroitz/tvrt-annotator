@@ -1,5 +1,7 @@
 import { MessageData } from '@/types/types'
 import emojilib from 'emojilib'
+import * as fs from 'node:fs/promises';
+import * as path from 'path';
 
 const constructReverseEmojiMap = (): Map<string, string> => {
   const emojiData = new Map()
@@ -67,3 +69,22 @@ export const getMessageReplyThread = (message: any, allMessages: any[]): any[] =
 
   return [parent, ...getMessageReplyThread(parent, allMessages)]
 }
+
+/** Check the structure of a dataset for validity */
+export const validateDatasetStructure = async (datasetPath: string) => {
+
+  // Check if required files exist
+  const requiredFiles = ['filtered.csv', 'full.csv', 'task.json'];
+  
+  for (const file of requiredFiles) {
+    const filePath = path.join(datasetPath, file);
+
+    try {
+      await fs.access(filePath);
+    } catch {
+      return false;
+    }
+  }
+
+  return true;
+};
