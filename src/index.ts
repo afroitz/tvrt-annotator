@@ -353,3 +353,32 @@ ipcMain.handle('importDataset', async () => {
   }
 });
 
+ipcMain.handle('exportAnnotations', async (_event, datasetName) => {
+  const annotationFile = path.join(app.getPath('userData'), 'annotations', datasetName, 'annotation.json');
+
+  try {
+    await fs.access(annotationFile);
+  } catch {
+    throw new Error("No annotations found.")
+  }
+
+  // Generate  default filename based on dataset name and timestamp
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); 
+  const defaultFileName = `${datasetName}_${timestamp}.json`;
+
+  // Show save dialog
+  const { canceled, filePath } = await dialog.showSaveDialog({
+    title: 'Save Annotations',
+    defaultPath: defaultFileName,
+    filters: [{ name: 'JSON Files', extensions: ['json'] }],
+  });
+
+  if (canceled || !filePath) {
+    return
+  }
+
+  // Copy the annotation.json file to the selected location
+  await fs.copyFile(annotationFile, filePath);
+
+});
+

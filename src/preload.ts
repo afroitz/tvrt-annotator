@@ -15,6 +15,7 @@ interface ElectronApi {
   updateAnnotation: (datasetName: string, sampleIndex: number, annotations: SampleAnnotations) => Promise<void>
   updateAnnotationMeta: (datasetName: string, meta: AnnotationMeta) => Promise<void>
   importDataset: () => Promise<void>
+  exportAnnotations: (datasetName: string) => Promise<void>
 }
 
 contextBridge.exposeInMainWorld("electronApi", {
@@ -24,5 +25,6 @@ contextBridge.exposeInMainWorld("electronApi", {
   startOrContinueAnnotation: (datasetName: string) => ipcRenderer.invoke('startOrContinueAnnotation', datasetName),
   updateAnnotation: (datasetName: string, sampleIndex: number, annotations: SampleAnnotations) => ipcRenderer.invoke('updateAnnotation', datasetName, sampleIndex, annotations),
   updateAnnotationMeta: (datasetName: string, meta: AnnotationMeta) => ipcRenderer.invoke('updateAnnotationMeta', datasetName, meta),
-  importDataset: () => ipcRenderer.invoke('importDataset')
+  importDataset: () => ipcRenderer.invoke('importDataset'),
+  exportAnnotations: (datasetName: string) => ipcRenderer.invoke('exportAnnotations', datasetName),
 })

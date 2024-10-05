@@ -130,6 +130,16 @@ const AnnotateSample: React.FC = () => {
     return annotationForRumor?.label || "No label";
   };
 
+  const handleExportClick = async () => {
+    try {
+      await window.electronApi.exportAnnotations(datasetName);
+      alert("Annotations exported successfully");
+    } catch (error) {
+      alert("Error exporting annotations");
+      console.error(error);
+    }
+  }
+
   return (
     <div className="flex w-full h-full box-border">
       { screenReady && <>
@@ -210,6 +220,7 @@ const AnnotateSample: React.FC = () => {
             </div>
           </div>
         ))}
+        <button onClick={handleExportClick} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded shadow hover:shadow-lg transition-shadow">Export annotations</button>
       </div>
       </>}
       { !screenReady && <div>Loading...</div> }
