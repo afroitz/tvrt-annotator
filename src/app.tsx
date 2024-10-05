@@ -22,9 +22,9 @@ const router = createMemoryRouter(
       ],
     },
   ],
-  {
+  /* {
     initialEntries: ['/annotate/my_test_dataset'], // Start at this route for testing
-  }
+  } */
 );
 
 const App = () => {
