@@ -5,22 +5,27 @@ import Layout from './components/Layout';
 import AnnotateSample from './screens/AnnotateSample';
 import SelectDataset from './screens/SelectDataset';
 
-const router = createMemoryRouter([
+const router = createMemoryRouter(
+  [
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          path: '/',
+          element: <SelectDataset />
+        },
+        {
+          path: '/annotate/:datasetName',
+          element: <AnnotateSample />
+        },
+      ],
+    },
+  ],
   {
-    path: '/',
-    element: <Layout />,
-    children: [
-      {
-        path: '/',
-        element: <SelectDataset />
-      },
-      {
-        path: '/annotate/:datasetName',
-        element: <AnnotateSample />
-      },
-    ]
-  },
-]);
+    initialEntries: ['/annotate/my_test_dataset'], // Start at this route for testing
+  }
+);
 
 const App = () => {
   return (

@@ -1,6 +1,7 @@
 import SampleDisplay from "@/components/SampleDisplay";
 import { AnnotationSample, SampleAnnotations } from "@/types/types";
 import { useEffect, useState, useCallback } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 
 const AnnotateSample: React.FC = () => {
@@ -75,28 +76,51 @@ const AnnotateSample: React.FC = () => {
   };
 
   return (
-    <div>
-      {/* Annotation UI */}
-      <div>
-        <div>
-          <button onClick={handlePreviousSample} disabled={sampleIndex === 0}>
-            Previous
-          </button>
-          <button onClick={handleNextSample} disabled={sampleIndex >= rowCount - 1}>
-            Next
-          </button>
+    <div className="flex w-full h-full box-border">
+      {/* Main/sample area */}
+      <div className="w-2/3 pr-4 flex flex-col">
+        {/* Sample navigation UI */}
+        <div className="flex items-center justify-between">
+          <div className="flex gap-2">
+            <button
+              onClick={handlePreviousSample}
+              disabled={sampleIndex === 0}
+              className="flex gap-2 items-center px-2 py-1 border border-black rounded-lg disabled:border-gray-500 disabled:text-gray-500 disabled:bg-gray-100 hover:bg-gray-300"
+            >
+              <FaChevronLeft />
+              Previous
+            </button>
+            <button
+              onClick={handleNextSample}
+              disabled={sampleIndex >= rowCount - 1}
+              className="flex gap-2 items-center px-2 py-1 border border-black rounded-lg disabled:border-gray-500 disabled:text-gray-500 disabled:bg-gray-100 hover:bg-gray-300"
+            >
+              Next
+              <FaChevronRight />
+            </button>
+          </div>
+          <div className="py-2">
+            <p>
+              Sample <span className="font-bold">{sampleIndex + 1}</span> /{' '}
+              <span className="font-bold">{rowCount}</span>
+            </p>
+          </div>
         </div>
-        <div>
-          <p>Sample {sampleIndex + 1} of {rowCount}</p>
+
+        {/* Scrollable sample display area */}
+        <div className="flex-grow overflow-y-auto mt-4">
+          {sampleData ? (
+            <SampleDisplay sample={sampleData} />
+          ) : (
+            <div>No data</div>
+          )}
         </div>
       </div>
-      {/* Display of the sample */}
-      {sampleData ? 
-        <SampleDisplay sample={sampleData} />
-        : <div>No data</div>
-      }
 
-      
+      {/* Annotation controls */}
+      <div className="w-1/3 border-l border-black pl-4">
+        hey
+      </div>
     </div>
   );
 }

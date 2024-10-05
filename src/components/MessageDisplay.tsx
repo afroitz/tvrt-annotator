@@ -43,7 +43,7 @@ const MessageDisplay = (props: MessageDisplayProps) => {
           <span className="italic">({message.chat_handle})</span>
       </h2>
       {/* Actual message block */}
-      <div className="px-4 py-2 bg-gray-200 rounded-xl">
+      <div className="px-4 py-2 bg-gray-200 rounded-lg">
         {/* Date display */}
         <p className="text-gray-500 italic text-sm mb-2">{message.message_date}</p>
         {/* Message text */}
@@ -71,7 +71,7 @@ const MessageDisplay = (props: MessageDisplayProps) => {
             <div className="mt-2">
               {mediaTypeText}
             </div>
-            <div className="px-2 py-2 rounded-xl bg-blue-200 my-2">
+            <div className="px-2 py-2 rounded-lg bg-blue-200 my-2">
               <h3 className="font-bold">{message.webpage_title}</h3>
               <p className="text-sm italic mb-2">
                 {message.webpage_author && <span>{message.webpage_author} |</span>}
