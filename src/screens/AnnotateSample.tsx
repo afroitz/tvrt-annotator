@@ -1,6 +1,6 @@
 import SampleDisplay from "@/components/SampleDisplay";
 import { AnnotationSample, SampleAnnotations } from "@/types/types";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 
@@ -14,6 +14,9 @@ const AnnotateSample: React.FC = () => {
   const [sampleIndex, setSampleIndex] = useState(0);
   const [annotationData, setAnnotationData] = useState<SampleAnnotations[]>([]);
   const [sampleData, setSampleData] = useState<AnnotationSample | null>(null);
+
+  // Create a ref for the scrollable sample area
+  const sampleDisplayRef = useRef<HTMLDivElement>(null);
 
   const initAnnotation = async () => {
     setScreenReady(false)
@@ -62,6 +65,14 @@ const AnnotateSample: React.FC = () => {
     loadSample(sampleIndex);
   }, [sampleIndex, loadSample]);
 
+  // Scroll to the bottom of the sample display area when the component mounts or updates
+  useEffect(() => {
+    if (sampleDisplayRef.current) {
+      const scrollHeight = sampleDisplayRef.current.scrollHeight;
+      sampleDisplayRef.current.scrollTop = scrollHeight;
+    }
+  }, [sampleData]);
+
   // Handlers for navigating samples
   const handleNextSample = () => {
     if (sampleIndex < rowCount - 1) {
@@ -108,7 +119,7 @@ const AnnotateSample: React.FC = () => {
         </div>
 
         {/* Scrollable sample display area */}
-        <div className="flex-grow overflow-y-auto mt-4">
+        <div className="flex-grow overflow-y-auto mt-4" ref={sampleDisplayRef}>
           {sampleData ? (
             <SampleDisplay sample={sampleData} />
           ) : (
