@@ -184,7 +184,7 @@ const AnnotateSample: React.FC = () => {
       </div>
 
       {/* Annotation controls */}
-      <div className="w-1/3 border-l border-black pl-4">
+      <div className="w-1/3 border-l border-black pl-4 overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">Annotate Rumors</h2>
         {rumors.map((rumor, rumorIndex) => (
           <div key={rumorIndex} className="mb-6">
