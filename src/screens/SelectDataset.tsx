@@ -39,7 +39,7 @@ const SelectDataset: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="h-full overflow-y-auto">
       <h2 className="text-xl font-bold mb-4">Select a dataset</h2>
       <ul>
         {datasets.length === 0 && <li className="p-4 border border-gray-300 rounded shadow mb-2">No datasets found. Click below to import a dataset.</li>}
