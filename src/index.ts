@@ -351,6 +351,7 @@ ipcMain.handle('importDataset', async () => {
   }
 });
 
+/** Export annotation data for a dataset */
 ipcMain.handle('exportAnnotations', async (_event, datasetName) => {
   const annotationFile = path.join(app.getPath('userData'), 'annotations', datasetName, 'annotation.json');
 

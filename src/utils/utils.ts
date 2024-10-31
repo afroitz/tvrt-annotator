@@ -3,6 +3,7 @@ import emojilib from 'emojilib'
 import * as fs from 'node:fs/promises';
 import * as path from 'path';
 
+/** Create a mapping from emoji names to emoji */
 const constructReverseEmojiMap = (): Map<string, string> => {
   const emojiData = new Map()
 
@@ -21,6 +22,7 @@ const replacements = {
   'enraged_face': 'angry'
 }
 
+/** Get an emoji by a name. If not found, return the name again. */
 export const getEmojiByName = (name: string) => {
   let normName = /:.+:/.test(name) ? name.slice(1, -1) : name
 
@@ -55,6 +57,7 @@ export const processMessageData = (data: any): MessageData => {
   return data as MessageData;
 }
 
+/** Recursively resolve the reply thread of a message */
 export const getMessageReplyThread = (message: any, allMessages: any[]): any[] => {
   // if the message is not a reply, return an empty array
   if(!(message.is_reply === true || message.is_reply === 'True')){

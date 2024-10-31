@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Dataset selection and importing screen
+ */
 const SelectDataset: React.FC = () => {
 
   const [datasets, setDatasets] = useState<string[]>([]);
   const navigate = useNavigate();
 
+  /**
+   * Initially, load list of available datasets
+   */
   useEffect(() => {
     const fetchDatasets = async () => {
       try {
@@ -18,10 +24,16 @@ const SelectDataset: React.FC = () => {
     fetchDatasets();
   }, []);
 
+  /**
+   * Logic for opening a dataset for annotation
+   */
   const handleCardClick = (datasetName: string) => {
     navigate(`/annotate/${datasetName}`);
   };
 
+  /**
+   * Logic for importing a dataset
+   */
   const handleImportClick = async () => {
     try {
       await window.electronApi.importDataset();

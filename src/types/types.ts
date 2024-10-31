@@ -1,10 +1,13 @@
+/** Message reaction data */
 export type MessageReaction = {
   emoji: string;
   count: number;
 }
 
+/** Types of media attached to messages */
 export type MessageMediaType = "MessageMediaDocumentVideo" | "MessageMediaWebPage" | "MessageMediaPhoto" | "MessageMediaDocumentAudio" | "MessageMediaDocumentDocument" | "";
 
+/** Data structure of an annotation sample */
 export type MessageData = {
   telegram_message_id: number; /** ID of the message */
   message_text: string; /** Text of the message */
@@ -26,37 +29,11 @@ export type MessageData = {
   reply_to_message_id: number; /** If is_reply is true: ID of the message being replied to */
 }
 
+/** A sample for annotation, including the sample itself and the reply thread */
 export type AnnotationSample = {
   sample: MessageData;
   thread: MessageData[];
 };
-
-/* 
-**Reactions**
-'message_fwd_count', 
-'message_reactions'
-'message_reactions_count'
-message_view_count
-
-**Connections/Internal**
-'fwd_from_chat_handle',
-'is_fwd'
-'is_group_elem'
-'is_reply'
-'message_group_id'
-reply_to_message_id
-reply_to_top_message_id
-telegram_chat_id
-telegram_message_id
-telegram_sender_id
-
-**Unclear**
-'message_media_type'
-webpage_author
-webpage_description
-webpage_title
-webpage_url
-*/
 
 /** Information about an annotation task: Labels and rumors */
 export type TaskInfo = {
@@ -92,6 +69,7 @@ export type AnnotationInfo = {
   data: AnnotationData;
 }
 
+/** Information about a dataset */
 export type DatasetInfo = {
   rows: number;
   taskInfo: TaskInfo;

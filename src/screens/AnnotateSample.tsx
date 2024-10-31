@@ -15,9 +15,11 @@ const AnnotateSample: React.FC = () => {
   const [annotationData, setAnnotationData] = useState<SampleAnnotations[]>([]);
   const [sampleData, setSampleData] = useState<AnnotationSample | null>(null);
 
-  // Create a ref for the scrollable sample area
   const sampleDisplayRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * Initialize the annotation data in both the frontend and backend
+   */
   const initAnnotation = async () => {
     setScreenReady(false)
 
@@ -43,13 +45,15 @@ const AnnotateSample: React.FC = () => {
     }
   }
 
-  // Initialize annotation screen when datasetName changes
+  // Initialize screen when datasetName changes
   useEffect(() => {
     initAnnotation()
   }, [datasetName])
   
 
-  // Load the current sample based on sampleIndex
+  /**
+   * Load the current sample based on sampleIndex
+   */
   const loadSample = useCallback(async (index: number) => {
     try {
       const sample = await window.electronApi.loadSample(datasetName, index);
@@ -60,12 +64,16 @@ const AnnotateSample: React.FC = () => {
     }
   }, [datasetName]);
 
-  // Update the sample data whenever the sampleIndex changes
+  /**
+   * Update the sample data whenever the sampleIndex changes
+   */
   useEffect(() => {
     loadSample(sampleIndex);
   }, [sampleIndex, loadSample]);
 
-  // Scroll to the bottom of the sample display area when the component mounts or updates
+  /**
+   * Scroll to the bottom of the sample display area when the component mounts or updates. This is for long reply threads.
+   */
   useEffect(() => {
     if (sampleDisplayRef.current) {
       const scrollHeight = sampleDisplayRef.current.scrollHeight;
@@ -73,20 +81,27 @@ const AnnotateSample: React.FC = () => {
     }
   }, [sampleData]);
 
-  // Handlers for navigating samples
+  /**
+   * Go to the next sample
+   */
   const handleNextSample = () => {
     if (sampleIndex < rowCount - 1) {
       setSampleIndex(sampleIndex + 1);
     }
   };
 
+  /**
+   * Go to the previous sample
+   */
   const handlePreviousSample = () => {
     if (sampleIndex > 0) {
       setSampleIndex(sampleIndex - 1);
     }
   };
 
-  // Handle radio button changes (updates annotation)
+  /**
+   * Handle an annotation being changed
+   */
   const handleLabelChange = async (rumorIndex: number, selectedLabel: string) => {
 
     const isRemoval = selectedLabel === "No label";
@@ -117,7 +132,9 @@ const AnnotateSample: React.FC = () => {
     });
   }
 
-  // Helper function to get the selected label for a rumor
+  /**
+   * Helper function to get the selected label for a rumor
+   */
   const getSelectedLabel = (rumorIndex: number): string => {
     const annotationForSample = annotationData.find((sample) => sample.sampleIndex === sampleIndex);
 
@@ -130,6 +147,9 @@ const AnnotateSample: React.FC = () => {
     return annotationForRumor?.label || "No label";
   };
 
+  /**
+   * Export annotation data
+   */
   const handleExportClick = async () => {
     try {
       await window.electronApi.exportAnnotations(datasetName);
