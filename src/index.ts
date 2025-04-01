@@ -351,6 +351,26 @@ ipcMain.handle('importDataset', async () => {
   }
 });
 
+/** Delete a dataset */
+ipcMain.handle('deleteDataset', async (_event, datasetName: string) => {
+  const datasetDirPath = path.join(app.getPath('userData'), 'annotation-input-data', datasetName);
+  const annotationDirPath = path.join(app.getPath('userData'), 'annotations', datasetName);
+  try {
+    await fs.access(datasetDirPath);
+  } catch (error) {
+    throw new Error(`Dataset ${datasetName} does not exist in the user data directory.`);
+  }
+  try {
+    await fs.access(annotationDirPath);
+  } catch (error) {
+    throw new Error(`Annotation directory for dataset ${datasetName} does not exist in the user data directory.`);
+  }
+
+  // Delete the dataset directory
+  await fs.rm(datasetDirPath, { recursive: true, force: true });
+  await fs.rm(annotationDirPath, { recursive: true, force: true });
+});
+
 /** Export annotation data for a dataset */
 ipcMain.handle('exportAnnotations', async (_event, datasetName) => {
   const annotationFile = path.join(app.getPath('userData'), 'annotations', datasetName, 'annotation.json');
