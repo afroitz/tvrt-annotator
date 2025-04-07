@@ -68,7 +68,7 @@ const AnnotateSample: React.FC = () => {
    * Update the sample data whenever the sampleIndex changes
    */
   useEffect(() => {
-    loadSample(sampleIndex);
+    !isNaN(sampleIndex) && sampleIndex >= 0 && sampleIndex < rowCount && loadSample(sampleIndex);
   }, [sampleIndex, loadSample]);
 
   /**
@@ -167,7 +167,7 @@ const AnnotateSample: React.FC = () => {
       <div className="w-2/3 pr-4 flex flex-col">
         {/* Sample navigation UI */}
         <div className="flex items-center justify-between">
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <button
               onClick={handlePreviousSample}
               disabled={sampleIndex === 0}
@@ -184,12 +184,21 @@ const AnnotateSample: React.FC = () => {
               Next
               <FaChevronRight />
             </button>
-          </div>
-          <div className="py-2">
-            <p>
-              Sample <span className="font-bold">{sampleIndex + 1}</span> /{' '}
-              <span className="font-bold">{rowCount}</span>
-            </p>
+            {/* UI for going to sample by index */}
+            <input
+              type="number"
+              min={1}
+              max={rowCount}
+              value={!isNaN(sampleIndex) ? sampleIndex + 1 : ""}
+              onChange={(e) => {
+                console.log("here");
+                const newIndex = Math.max(0, Math.min(rowCount - 1, parseInt(e.target.value) - 1));
+                console.log("after setting");
+                setSampleIndex(newIndex);
+              }}
+              className="border border-black rounded-lg px-2 py-1 w-16"
+            />
+            <span className="">of <span className="font-bold">{rowCount}</span></span>
           </div>
         </div>
 
