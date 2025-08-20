@@ -11,7 +11,7 @@ const AnnotateSample: React.FC = () => {
   const [rowCount, setRowCount] = useState(0);
   const [rumors, setRumors] = useState<string[]>([]);
   const [labels, setLabels] = useState<string[]>([]);
-  const [sampleIndex, setSampleIndex] = useState(0);
+  const [sampleIndex, setSampleIndex] = useState(null);
   const [annotationData, setAnnotationData] = useState<SampleAnnotations[]>([]);
   const [sampleData, setSampleData] = useState<AnnotationSample | null>(null);
 
@@ -191,9 +191,7 @@ const AnnotateSample: React.FC = () => {
               max={rowCount}
               value={!isNaN(sampleIndex) ? sampleIndex + 1 : ""}
               onChange={(e) => {
-                console.log("here");
                 const newIndex = Math.max(0, Math.min(rowCount - 1, parseInt(e.target.value) - 1));
-                console.log("after setting");
                 setSampleIndex(newIndex);
               }}
               className="border border-black rounded-lg px-2 py-1 w-16"
